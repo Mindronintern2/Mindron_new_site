@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="logo">MyApp</a>
+        </div>
+        
+        <div class="navbar-middle">
+         <h1 class="bold"> Home</h1>
+        </div>
+
+        <div class="navbar-right">
+            <div class="nav-info">
+                <span>🌡️ 39.7°C</span>
+                <span>📅</span>
+            </div>
+            
+            <div class="theme-selector">
+                <button class="theme-button" onclick="toggleDropdown()">
+                    <svg class="theme-icon moon-icon" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </button>
+                
+                <div class="dropdown" id="theme-dropdown">
+                    <div class="dropdown-item" onclick="setTheme('light')">
+                        <svg class="theme-icon sun-icon" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        Light
+                    </div>
+                    <div class="dropdown-item active" onclick="setTheme('dark')">
+                        <svg class="theme-icon moon-icon" viewBox="0 0 24 24">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                        </svg>
+                        Dark
+                    </div>
+                    <div class="dropdown-item" onclick="setTheme('system')">
+                        <svg class="theme-icon system-icon" viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        System
+                    </div>
+                </div>
+
+                
+            </div>      
+            
+            <button class="power-button" onclick="powerButton()">
+                <img src="./images/power-button.png" alt="" width="15" height="15">
+            </button>
+        </div>
+    </nav>
+    
+</body>
+</html>
