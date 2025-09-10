@@ -861,3 +861,61 @@ body {
 .camera-feed.active {
     display: flex;
 }
+
+
+#result{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#scan{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+#compare{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#certificates{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#history{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#settings{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#help{
+    flex:1;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
