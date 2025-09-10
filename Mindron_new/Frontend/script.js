@@ -3,6 +3,17 @@ let currentTheme = 'dark';
 let dropdownOpen = false;
 let powerMenuOpen = false;
 
+// delcare the global route..
+const route={
+    "/":"home",
+    "/home":"home",
+    "/scan":"scan",
+    "/result":"./components/result.html",
+    "/compare":"compare",
+    "/certificates":"certificates",
+    "/history":"history",
+    "/settings":"settings"
+}
 // Load navbar component
 async function loadNavbar() {
     try {
@@ -121,19 +132,219 @@ function updateDateTime() {
     if (timeElement) timeElement.textContent = timeString;
 }
 
+// store the state of the div...
+
+// Navigation function to load content based on route
+// async function navigateToPage(route) {
+//     const mainContent = document.querySelector('.sidebar').parentElement;
+
+//     console.log('this is the main content', mainContent);
+    
+    
+//     if (route === 'result') {
+//         try {
+//             const response = await fetch('./components/result.html');
+//             const resultHTML = await response.text();
+            
+//             // Hide the current content and show result
+//             document.querySelector('.sidebar').style.display = 'none';
+//             document.querySelector('.camera-area').style.display = 'none';
+//             document.querySelector('.controls-panel').style.display = 'none';
+            
+//             // Create or update result container
+//             let resultContainer = document.getElementById('result');
+//             if (!resultContainer) {
+//                 resultContainer = document.createElement('div');
+//                 resultContainer.id = 'result';
+//                 // resultContainer.style.cssText = 'flex: 1; padding: 20px; display: flex; justify-content: center; align-items: center;';
+//                 mainContent.appendChild(resultContainer);
+//             }
+//             // resultContainer.innerHTML = resultHTML;
+//             // Extract body content from result.html
+//             const parser = new DOMParser();
+//             const doc = parser.parseFromString(resultHTML, 'text/html');
+//             const bodyContent = doc.querySelector('#result');
+            
+//             resultContainer.innerHTML = bodyContent ? bodyContent.outerHTML : resultHTML;
+//             resultContainer.style.display = 'flex';
+            
+//         } catch (error) {
+//             console.error('Error loading result page:', error);
+//         }
+//     } else if (route === 'home') {
+//         // Show home/default content - restore original layout
+//         document.querySelector('.sidebar').style.display = 'block';
+//         document.querySelector('.camera-area').style.display = 'block';
+//         document.querySelector('.wake-area').style.display = 'block';
+//         document.querySelector('.controls-panel').style.display = 'block';
+        
+//         // Hide result container
+//         const resultContainer = document.getElementById('result');
+//         if (resultContainer) {
+//             resultContainer.style.display = 'none';
+//         }
+//     } else if(route === 'scan'){
+//         try {
+//             const response = await fetch('./components/scan.html');
+//             const resultHTML = await response.text();
+            
+//             // Hide the current content and show result
+//             document.querySelector('.sidebar').style.display = 'none';
+//             document.querySelector('.camera-area').style.display = 'none';
+//             document.querySelector('.controls-panel').style.display = 'none';
+            
+//             // Create or update result container
+//             let resultContainer = document.getElementById('scan');
+//             if (!resultContainer) {
+//                 resultContainer = document.createElement('div');
+//                 resultContainer.id = 'scan';
+//                 resultContainer.style.cssText = 'flex: 1; padding: 20px; display: flex; justify-content: center; align-items: center;';
+//                 mainContent.appendChild(resultContainer);
+//             }
+//             // resultContainer.innerHTML = resultHTML;
+//             // Extract body content from result.html
+//             const parser = new DOMParser();
+//             const doc = parser.parseFromString(resultHTML, 'text/html');
+//             const bodyContent = doc.querySelector('#scan');
+            
+//             resultContainer.innerHTML = bodyContent ? bodyContent.outerHTML : resultHTML;
+//             resultContainer.style.display = 'flex';
+            
+//         } catch (error) {
+//             console.error('Error loading result page:', error);
+//         }
+//     }
+    
+    
+    
+//     else {
+//         // Show default content for other routes (scan, compare, etc.)
+//         // document.querySelector('.sidebar').style.display = 'block';
+//         // document.querySelector('.camera-area').style.display = 'block';
+//         // document.querySelector('.controls-panel').style.display = 'block';
+        
+//         // const resultContainer = document.getElementById('result-container');
+//         // if (resultContainer) {
+//         //     resultContainer.style.display = 'none';
+//         // }
+//     }
+// }
+
+// // Initialize components and theme when page loads
+// document.addEventListener('DOMContentLoaded', async function() {
+//     await loadNavbar();
+//     await loadFooter();
+//     initializeTheme();
+    
+//     // Add event listeners to footer navigation after footer is loaded
+//     setTimeout(() => {
+//         const footerNavItems = document.querySelectorAll('.footer-container .nav-item');
+        
+//         footerNavItems.forEach(item => {
+//             item.addEventListener('click', function(e) {
+//                 e.preventDefault();
+                
+//                 // Remove active class from all footer nav items
+//                 footerNavItems.forEach(nav => nav.classList.remove('active'));
+                
+//                 // Add active class to clicked item
+//                 this.classList.add('active');
+                
+//                 // Get the route from data-tab attribute
+//                 const route = this.getAttribute('data-tab');
+//                 console.log('Navigating to:', route);
+                
+//                 // Navigate to the selected page
+//                 navigateToPage(route);
+//             });
+//         });
+        
+//         updateDateTime();
+//         // Update every second
+//         setInterval(updateDateTime, 1000);
+//     }, 100);
+// });
+
+async function navigateToPage(route) {
+    const mainContent = document.querySelector('.sidebar').parentElement;
+
+    // Hide all core sections initially
+    const sections = ['.sidebar', '.camera-area', '.controls-panel', '.wake-area'];
+    sections.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) el.style.display = 'none';
+    });
+
+    // Hide all dynamic containers (result, scan, etc.)
+    document.querySelectorAll('.page-container').forEach(container => {
+        container.style.display = 'none';
+    });
+
+    // Handle routes
+    if (route === 'home') {
+        // Show main layout again
+        sections.forEach(sel => {
+            const el = document.querySelector(sel);
+            if (el) el.style.display = 'block';
+        });
+        return;
+    }
+
+    // For result, scan, compare, etc.
+    try {
+        const response = await fetch(`./components/${route}.html`);
+        const resultHTML = await response.text();
+
+        // Create or update container
+        let container = document.getElementById(route);
+        if (!container) {
+            container = document.createElement('div');
+            container.id = route;
+            container.classList.add('page-container'); // pick up CSS styles
+            mainContent.appendChild(container);
+        }
+
+        // Parse HTML and extract matching section
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(resultHTML, 'text/html');
+        const bodyContent = doc.querySelector(`#${route}`);
+
+        container.innerHTML = bodyContent ? bodyContent.outerHTML : resultHTML;
+        container.style.display = 'flex';
+
+    } catch (error) {
+        console.error(`Error loading ${route} page:`, error);
+    }
+}
+
 // Initialize components and theme when page loads
 document.addEventListener('DOMContentLoaded', async function() {
     await loadNavbar();
     await loadFooter();
     initializeTheme();
-    
-    // Start the date/time updates after footer is loaded
+
     setTimeout(() => {
+        const footerNavItems = document.querySelectorAll('.footer-container .nav-item');
+
+        footerNavItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Toggle active class
+                footerNavItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                const route = this.getAttribute('data-tab');
+                console.log('Navigating to:', route);
+                navigateToPage(route);
+            });
+        });
+
         updateDateTime();
-        // Update every second
         setInterval(updateDateTime, 1000);
     }, 100);
 });
+
 
 
 fetch("components/navbar.html")
@@ -306,6 +517,3 @@ function handleAutoMarkingToggle(isOn) {
         // Add your Auto Marking disable logic here
     }
 }
-
-
-
